@@ -11,6 +11,11 @@ public class Lot {
     private String status = "available";
     private Client owner = null;
     
+    public Lot (float size, int lotNum, float price) {
+        this.size = size;
+        this.lotNum = lotNum;
+        this.price = price;
+    }
     public Lot (float size, int lotNum, float price, String status) {
         this.size = size;
         this.lotNum = lotNum;
