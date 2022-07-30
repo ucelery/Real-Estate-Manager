@@ -63,10 +63,10 @@ public class Manager implements Mediator {
      * Generates a client, object
      * @param fname sets the client's First Name
      * @param lname sets the client's Last Name
-     * @param agent sets the client's Assigned Agent
+     * @param sig sets the client's signature
      * @return new Client();
      */
-    public Client generateClient(String fname, String lname, Agent agent) {
-        return new Client(fname, lname, agent);
+    public Client generateClient(String fname, String lname, String sig) {
+        return new Client(fname, lname, sig);
     }
 }

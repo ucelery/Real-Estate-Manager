@@ -5,21 +5,21 @@
 package MyLibs;
 
 public class Client extends Person{
-    private Agent clientAgent;
+    private String signature;
     
-    public Client (String fName, String lName, Agent clientAgent) {
+    public Client (String fName, String lName, String signature) {
         super(fName, lName);
-        this.clientAgent = clientAgent;
+        this.signature = signature;
     }
     
     // Getters
-    public String getAgent() {
-        return this.clientAgent.getFirstName()+" "+this.clientAgent.getLastName();
+    public String getSignature() {
+        return this.signature;
     }
     
     // Setters
-    public void setAgent(Agent clientAgent) {
-        this.clientAgent = clientAgent;
+    public void setSignature(String signature) {
+        this.signature = signature;
     }
     
 }
