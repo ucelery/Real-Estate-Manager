@@ -4,30 +4,22 @@
  */
 package MyLibs;
 
-public class Client {
-    private String firstName;
-    private String lastName;
+public class Client extends Person{
+    private Agent clientAgent;
     
-    public Client (String firstName, String lastName) {
-        this.firstName = firstName;
-        this.lastName = lastName;
+    public Client (String fName, String lName, Agent clientAgent) {
+        super(fName, lName);
+        this.clientAgent = clientAgent;
     }
     
     // Getters
-    public String getFirstName() {
-        return this.firstName;
-    }
-    
-    public String getLastName() {
-        return this.lastName;
+    public String getAgent() {
+        return this.clientAgent.getFirstName()+" "+this.clientAgent.getLastName();
     }
     
     // Setters
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setAgent(Agent clientAgent) {
+        this.clientAgent = clientAgent;
     }
     
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
 }

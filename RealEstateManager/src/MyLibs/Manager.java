@@ -23,11 +23,11 @@ public class Manager implements Mediator {
     public void updateLotStatus(Lot lot, Client client, String status) {
         for (Block blockItem : blocks) {
             for (Lot lotItem : blockItem.getLots()) {
-            if (lotItem == lot) {
-                // Update lot status
-                break;
+                if (lotItem == lot) {
+                    // Update lot status
+                    break;
+                }
             }
-        }
         }
     }
 
@@ -45,8 +45,9 @@ public class Manager implements Mediator {
     
     /**
      * displays all the lots in the form table or something
+     * @param choice for specs
      */
-    public void displayLots() {
+    public void displayLots(int choice) {
         
     }
     
@@ -62,9 +63,10 @@ public class Manager implements Mediator {
      * Generates a client, object
      * @param fname sets the client's First Name
      * @param lname sets the client's Last Name
+     * @param agent sets the client's Assigned Agent
      * @return new Client();
      */
-    public Client generateClient(String fname, String lname) {
-        return new Client(fname, lname);
+    public Client generateClient(String fname, String lname, Agent agent) {
+        return new Client(fname, lname, agent);
     }
 }
