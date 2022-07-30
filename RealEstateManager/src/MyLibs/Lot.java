@@ -8,7 +8,7 @@ public class Lot {
     private float size;
     private int lotNum;
     private float price;
-    private String status;
+    private String status = "available";
     private Client owner = null;
     
     public Lot (float size, int lotNum, float price, String status) {
@@ -53,7 +53,7 @@ public class Lot {
     }
 
     public void setStatus(String status) {
-        this.size = size;
+        this.status = status;
     }
 
     public void setOwner(Client owner) {
