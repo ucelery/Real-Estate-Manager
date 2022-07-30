@@ -6,12 +6,12 @@ package MyLibs;
 
 public class Lot {
     private float size;
-    private float lotNum;
+    private int lotNum;
     private float price;
-    private float status;
+    private String status;
     private Client owner = null;
     
-    public Lot (float size, float lotNum, float blockNum, float price, float status) {
+    public Lot (float size, int lotNum, float price, String status) {
         this.size = size;
         this.lotNum = lotNum;
         this.price = price;
@@ -44,7 +44,7 @@ public class Lot {
         this.size = size;
     }
 
-    public void setLotNum(float lotNum) {
+    public void setLotNum(int lotNum) {
         this.lotNum = lotNum;
     }
 
@@ -52,7 +52,7 @@ public class Lot {
         this.price = price;
     }
 
-    public void setStatus(float status) {
+    public void setStatus(String status) {
         this.size = size;
     }
 
