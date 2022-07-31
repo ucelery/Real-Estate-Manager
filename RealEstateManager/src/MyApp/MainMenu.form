@@ -584,7 +584,7 @@
                   <StringArray count="3">
                     <StringItem index="0" value="Available"/>
                     <StringItem index="1" value="Reserved"/>
-                    <StringItem index="2" value="Bought"/>
+                    <StringItem index="2" value="Sold"/>
                   </StringArray>
                 </Property>
               </Properties>

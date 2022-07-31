@@ -354,7 +354,7 @@ public class MainMenu extends javax.swing.JFrame {
         jLabel16.setFont(new java.awt.Font("Sitka Text", 0, 14)); // NOI18N
         jLabel16.setText("Change Status:");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Available", "Reserved", "Bought" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Available", "Reserved", "Sold" }));
 
         backButton3.setText("Back");
         backButton3.addActionListener(new java.awt.event.ActionListener() {
