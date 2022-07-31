@@ -41,39 +41,41 @@ public class MainMenu extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
+        mBlockFld = new javax.swing.JTextField();
+        mSizeFld = new javax.swing.JTextField();
+        mPriceFld = new javax.swing.JTextField();
         modifyButton = new javax.swing.JButton();
+        jLabel14 = new javax.swing.JLabel();
+        mLotFld = new javax.swing.JTextField();
         showLots = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         backButton2 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        sTable = new javax.swing.JTable();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
-        jTextField5 = new javax.swing.JTextField();
-        jTextField6 = new javax.swing.JTextField();
+        sSizeFld = new javax.swing.JTextField();
+        sPriceFld = new javax.swing.JTextField();
         sortButton = new javax.swing.JButton();
         jLabel13 = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox<>();
-        jComboBox4 = new javax.swing.JComboBox<>();
+        sStatusCbx = new javax.swing.JComboBox<>();
+        sBlockCbx = new javax.swing.JComboBox<>();
         processLots = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
-        jTextField8 = new javax.swing.JTextField();
+        pLotFld = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        pStatusCbx = new javax.swing.JComboBox<>();
         backButton3 = new javax.swing.JButton();
         resButton = new javax.swing.JButton();
-        jComboBox3 = new javax.swing.JComboBox<>();
+        pBlockCbx = new javax.swing.JComboBox<>();
         genRep = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         backButton4 = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        gTable = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -179,34 +181,42 @@ public class MainMenu extends javax.swing.JFrame {
             }
         });
 
+        jLabel14.setFont(new java.awt.Font("Sitka Text", 0, 18)); // NOI18N
+        jLabel14.setText("Lot:");
+
         javax.swing.GroupLayout modifyLotsLayout = new javax.swing.GroupLayout(modifyLots);
         modifyLots.setLayout(modifyLotsLayout);
         modifyLotsLayout.setHorizontalGroup(
             modifyLotsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(modifyLotsLayout.createSequentialGroup()
-                .addContainerGap(226, Short.MAX_VALUE)
-                .addGroup(modifyLotsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, modifyLotsLayout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addGap(216, 216, 216))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, modifyLotsLayout.createSequentialGroup()
-                        .addComponent(modifyButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(modifyLotsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTextField3, javax.swing.GroupLayout.DEFAULT_SIZE, 231, Short.MAX_VALUE)
-                            .addComponent(jTextField2)
-                            .addComponent(jTextField1)
-                            .addGroup(modifyLotsLayout.createSequentialGroup()
-                                .addGap(79, 79, 79)
-                                .addComponent(backButton1)))
-                        .addGap(117, 117, 117))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, modifyLotsLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel2)
+                .addGap(216, 216, 216))
             .addGroup(modifyLotsLayout.createSequentialGroup()
                 .addGap(156, 156, 156)
                 .addGroup(modifyLotsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel8)
-                    .addComponent(jLabel7)
-                    .addComponent(jLabel6))
-                .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, modifyLotsLayout.createSequentialGroup()
+                        .addComponent(modifyButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, modifyLotsLayout.createSequentialGroup()
+                        .addComponent(jLabel14)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(modifyLotsLayout.createSequentialGroup()
+                        .addGroup(modifyLotsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel7)
+                            .addComponent(jLabel8)
+                            .addComponent(jLabel6))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 96, Short.MAX_VALUE)))
+                .addGroup(modifyLotsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(modifyLotsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(mPriceFld, javax.swing.GroupLayout.DEFAULT_SIZE, 231, Short.MAX_VALUE)
+                        .addComponent(mSizeFld)
+                        .addComponent(mBlockFld)
+                        .addGroup(modifyLotsLayout.createSequentialGroup()
+                            .addGap(79, 79, 79)
+                            .addComponent(backButton1)))
+                    .addComponent(mLotFld, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(117, 117, 117))
         );
         modifyLotsLayout.setVerticalGroup(
             modifyLotsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -216,16 +226,20 @@ public class MainMenu extends javax.swing.JFrame {
                 .addGap(48, 48, 48)
                 .addGroup(modifyLotsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(mBlockFld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(41, 41, 41)
                 .addGroup(modifyLotsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel14)
+                    .addComponent(mLotFld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(29, 29, 29)
+                .addGroup(modifyLotsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(43, 43, 43)
+                    .addComponent(mSizeFld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(36, 36, 36)
                 .addGroup(modifyLotsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 154, Short.MAX_VALUE)
+                    .addComponent(mPriceFld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 109, Short.MAX_VALUE)
                 .addGroup(modifyLotsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(backButton1)
                     .addComponent(modifyButton))
@@ -245,7 +259,7 @@ public class MainMenu extends javax.swing.JFrame {
             }
         });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        sTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -256,7 +270,7 @@ public class MainMenu extends javax.swing.JFrame {
                 "Block", "Lot", "Size", "Price"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(sTable);
 
         jLabel9.setFont(new java.awt.Font("Sitka Text", 0, 14)); // NOI18N
         jLabel9.setText("Block:");
@@ -272,9 +286,9 @@ public class MainMenu extends javax.swing.JFrame {
         jLabel13.setFont(new java.awt.Font("Sitka Text", 0, 14)); // NOI18N
         jLabel13.setText("Status:");
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Available", "Reserved", "Sold" }));
+        sStatusCbx.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Available", "Reserved", "Sold" }));
 
-        jComboBox4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5" }));
+        sBlockCbx.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5" }));
 
         javax.swing.GroupLayout showLotsLayout = new javax.swing.GroupLayout(showLots);
         showLots.setLayout(showLotsLayout);
@@ -292,11 +306,11 @@ public class MainMenu extends javax.swing.JFrame {
                     .addGroup(showLotsLayout.createSequentialGroup()
                         .addGap(6, 6, 6)
                         .addGroup(showLotsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTextField5, javax.swing.GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE)
-                            .addComponent(jTextField6, javax.swing.GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE)
+                            .addComponent(sSizeFld, javax.swing.GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE)
+                            .addComponent(sPriceFld, javax.swing.GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE)
                             .addComponent(sortButton)
-                            .addComponent(jComboBox2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jComboBox4, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(sStatusCbx, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(sBlockCbx, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addGap(29, 29, 29))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, showLotsLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -319,19 +333,19 @@ public class MainMenu extends javax.swing.JFrame {
                     .addGroup(showLotsLayout.createSequentialGroup()
                         .addComponent(jLabel9)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(sBlockCbx, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(17, 17, 17)
                         .addComponent(jLabel11)
                         .addGap(3, 3, 3)
-                        .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(sSizeFld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jLabel10)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(sPriceFld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jLabel13)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(sStatusCbx, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(sortButton)))
                 .addGap(51, 51, 51)
@@ -354,7 +368,7 @@ public class MainMenu extends javax.swing.JFrame {
         jLabel16.setFont(new java.awt.Font("Sitka Text", 0, 14)); // NOI18N
         jLabel16.setText("Change Status:");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Available", "Reserved", "Sold" }));
+        pStatusCbx.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Available", "Reserved", "Sold" }));
 
         backButton3.setText("Back");
         backButton3.addActionListener(new java.awt.event.ActionListener() {
@@ -365,7 +379,7 @@ public class MainMenu extends javax.swing.JFrame {
 
         resButton.setText("Submit");
 
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5" }));
+        pBlockCbx.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5" }));
 
         javax.swing.GroupLayout processLotsLayout = new javax.swing.GroupLayout(processLots);
         processLots.setLayout(processLotsLayout);
@@ -382,9 +396,9 @@ public class MainMenu extends javax.swing.JFrame {
                         .addGap(87, 87, 87)
                         .addGroup(processLotsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(processLotsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jTextField8)
-                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(pLotFld)
+                                .addComponent(pStatusCbx, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(pBlockCbx, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(126, 126, 126))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, processLotsLayout.createSequentialGroup()
                         .addComponent(jLabel4)
@@ -403,15 +417,15 @@ public class MainMenu extends javax.swing.JFrame {
                 .addGap(61, 61, 61)
                 .addGroup(processLotsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel12)
-                    .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(pBlockCbx, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(34, 34, 34)
                 .addGroup(processLotsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel15)
-                    .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(pLotFld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(32, 32, 32)
                 .addGroup(processLotsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel16)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(pStatusCbx, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 84, Short.MAX_VALUE)
                 .addGroup(processLotsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(resButton)
@@ -432,7 +446,7 @@ public class MainMenu extends javax.swing.JFrame {
             }
         });
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        gTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
                 {null, null, null, null, null},
@@ -443,7 +457,8 @@ public class MainMenu extends javax.swing.JFrame {
                 "Block No.", "Lot No.", "Size", "Price", "Status"
             }
         ));
-        jScrollPane2.setViewportView(jTable2);
+        gTable.getTableHeader().setReorderingAllowed(false);
+        jScrollPane2.setViewportView(gTable);
 
         javax.swing.GroupLayout genRepLayout = new javax.swing.GroupLayout(genRep);
         genRep.setLayout(genRepLayout);
@@ -597,17 +612,15 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JButton backButton2;
     private javax.swing.JButton backButton3;
     private javax.swing.JButton backButton4;
+    private javax.swing.JTable gTable;
     private javax.swing.JPanel genRep;
     private javax.swing.JButton genRepButton;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
-    private javax.swing.JComboBox<String> jComboBox3;
-    private javax.swing.JComboBox<String> jComboBox4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel2;
@@ -620,22 +633,26 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField5;
-    private javax.swing.JTextField jTextField6;
-    private javax.swing.JTextField jTextField8;
+    private javax.swing.JTextField mBlockFld;
+    private javax.swing.JTextField mLotFld;
+    private javax.swing.JTextField mPriceFld;
+    private javax.swing.JTextField mSizeFld;
     private javax.swing.JPanel mainMenu;
     private javax.swing.JButton modLotsButton;
     private javax.swing.JButton modifyButton;
     private javax.swing.JPanel modifyLots;
+    private javax.swing.JComboBox<String> pBlockCbx;
+    private javax.swing.JTextField pLotFld;
+    private javax.swing.JComboBox<String> pStatusCbx;
     private javax.swing.JPanel parentPanel;
     private javax.swing.JButton procLotsButton;
     private javax.swing.JPanel processLots;
     private javax.swing.JButton resButton;
+    private javax.swing.JComboBox<String> sBlockCbx;
+    private javax.swing.JTextField sPriceFld;
+    private javax.swing.JTextField sSizeFld;
+    private javax.swing.JComboBox<String> sStatusCbx;
+    private javax.swing.JTable sTable;
     private javax.swing.JButton showLotButton;
     private javax.swing.JPanel showLots;
     private javax.swing.JButton sortButton;
