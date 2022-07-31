@@ -9,9 +9,21 @@ import java.util.ArrayList;
 public class Manager implements Mediator {
     private ArrayList<Block> blocks;
 
+    
     public Manager (ArrayList<Block> blocks) {
         this.blocks = blocks;
     }
+    
+    //getters
+    public ArrayList<Block> getArrayList() {
+        return this.blocks;
+    }
+    
+    //setters
+    public void setArrayList(ArrayList<Block> blocks) {
+        this.blocks = blocks;
+    }
+    
     
     /**
      * Updates lot status based on status input
@@ -23,11 +35,11 @@ public class Manager implements Mediator {
     public void updateLotStatus(Lot lot, Client client, String status) {
         for (Block blockItem : blocks) {
             for (Lot lotItem : blockItem.getLots()) {
-            if (lotItem == lot) {
-                // Update lot status
-                break;
+                if (lotItem == lot) {
+                    // Update lot status
+                    break;
+                }
             }
-        }
         }
     }
 
@@ -45,8 +57,9 @@ public class Manager implements Mediator {
     
     /**
      * displays all the lots in the form table or something
+     * @param choice for specs
      */
-    public void displayLots() {
+    public void displayLots(int choice) {
         
     }
     
@@ -62,9 +75,10 @@ public class Manager implements Mediator {
      * Generates a client, object
      * @param fname sets the client's First Name
      * @param lname sets the client's Last Name
+     * @param sig sets the client's signature
      * @return new Client();
      */
-    public Client generateClient(String fname, String lname) {
-        return new Client(fname, lname);
+    public Client generateClient(String fname, String lname, String sig) {
+        return new Client(fname, lname, sig);
     }
 }

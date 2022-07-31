@@ -4,30 +4,22 @@
  */
 package MyLibs;
 
-public class Client {
-    private String firstName;
-    private String lastName;
+public class Client extends Person{
+    private String signature;
     
-    public Client (String firstName, String lastName) {
-        this.firstName = firstName;
-        this.lastName = lastName;
+    public Client (String fName, String lName, String signature) {
+        super(fName, lName);
+        this.signature = signature;
     }
     
     // Getters
-    public String getFirstName() {
-        return this.firstName;
-    }
-    
-    public String getLastName() {
-        return this.lastName;
+    public String getSignature() {
+        return this.signature;
     }
     
     // Setters
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setSignature(String signature) {
+        this.signature = signature;
     }
     
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
 }
