@@ -9,9 +9,21 @@ import java.util.ArrayList;
 public class Manager implements Mediator {
     private ArrayList<Block> blocks;
 
+    
     public Manager (ArrayList<Block> blocks) {
         this.blocks = blocks;
     }
+    
+    //getters
+    public ArrayList<Block> getArrayList() {
+        return this.blocks;
+    }
+    
+    //setters
+    public void setArrayList(ArrayList<Block> blocks) {
+        this.blocks = blocks;
+    }
+    
     
     /**
      * Updates lot status based on status input
