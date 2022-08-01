@@ -28,7 +28,7 @@ public class Lot {
         return this.size;
     }
     
-    public float getLotNum() {
+    public int getLotNum() {
         return this.lotNum;
     }
     
@@ -36,8 +36,8 @@ public class Lot {
         return this.price;
     }
     
-    public float getStatus() {
-        return this.size;
+    public String getStatus() {
+        return this.status;
     }
     
     public Client getOwner() {

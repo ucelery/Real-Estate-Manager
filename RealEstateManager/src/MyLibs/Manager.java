@@ -27,20 +27,16 @@ public class Manager implements Mediator {
     
     /**
      * Updates lot status based on status input
-     * @param lot    the target lot to be updated
+     * @param blockNum the target block to be updated
+     * @param lotNum the target lot to be updated
      * @param client the assigned customer object
      * @param status possible status inputs are "available", "reserved", "sold"
      */
     @Override
-    public void updateLotStatus(Lot lotNum, Client client, String status) {
-        for (Block blockItem : blocks) {
-            for (Lot lotItem : blockItem.getLots()) {
-                if (lotItem == lotNum) {
-                    // Update lot status
-                    break;
-                }
-            }
-        }
+    public void updateLotStatus(int blockNum, int lotNum, Client client, String status) {
+        Lot refLot = blocks.get(blockNum).getLots().get(lotNum);
+        refLot.setOwner(client);
+        refLot.setStatus(status);
     }
 
     /**
@@ -53,14 +49,12 @@ public class Manager implements Mediator {
     public void updateLot(int blockNum, int lotNum, Lot newLot) {
         // update lot based on index, subject to change
         // if you could think a better method let us know
-    }
-    
-    /**
-     * displays all the lots in the form table or something
-     * @param choice for specs
-     */
-    public void displayLots(int choice) {
-        
+        Lot refLot = blocks.get(blockNum).getLots().get(lotNum);
+        refLot.setLotNum(newLot.getLotNum());
+        refLot.setOwner(newLot.getOwner());
+        refLot.setPrice(newLot.getPrice());
+        refLot.setSize(newLot.getSize());
+        refLot.setStatus(newLot.getStatus());
     }
     
     /**
