@@ -19,6 +19,7 @@ public class MainMenu extends javax.swing.JFrame {
     
     ArrayList<Block> blocks = new ArrayList<>();
     Manager manager = new Manager(blocks);
+    int minPrice = 5000, maxPrice = 15000, minSize = 40, maxSize = 250;
     public MainMenu() {
         initComponents();
         // Default hardcoded data
@@ -28,8 +29,8 @@ public class MainMenu extends javax.swing.JFrame {
             for (int j = 0; j < 20; j++) {
                 Random rPrice = new Random();
                 Random rSize = new Random();
-                float price = rPrice.nextInt(10000)+5000;
-                float size = rSize.nextInt(160)+40;
+                float price = rPrice.nextInt(maxPrice-minPrice)+minPrice;
+                float size = rSize.nextInt(maxSize-minSize)+minSize;
                 Lot lot = new Lot(size, j + 1, price);
                 block.getLots().add(lot);
             }
@@ -71,6 +72,7 @@ public class MainMenu extends javax.swing.JFrame {
         modifyButton = new javax.swing.JButton();
         jLabel14 = new javax.swing.JLabel();
         mLotFld = new javax.swing.JTextField();
+        mClearBtn = new javax.swing.JButton();
         showLots = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         backButton2 = new javax.swing.JButton();
@@ -132,6 +134,13 @@ public class MainMenu extends javax.swing.JFrame {
         jLabel14.setFont(new java.awt.Font("Sitka Text", 0, 18)); // NOI18N
         jLabel14.setText("Lot:");
 
+        mClearBtn.setText("Clear");
+        mClearBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mClearBtnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout modifyLotsLayout = new javax.swing.GroupLayout(modifyLots);
         modifyLots.setLayout(modifyLotsLayout);
         modifyLotsLayout.setHorizontalGroup(
@@ -140,7 +149,7 @@ public class MainMenu extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel2)
                 .addGap(216, 216, 216))
-            .addGroup(modifyLotsLayout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, modifyLotsLayout.createSequentialGroup()
                 .addGap(156, 156, 156)
                 .addGroup(modifyLotsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, modifyLotsLayout.createSequentialGroup()
@@ -154,6 +163,7 @@ public class MainMenu extends javax.swing.JFrame {
                             .addComponent(jLabel6))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGroup(modifyLotsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(mClearBtn)
                     .addGroup(modifyLotsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(mPriceFld, javax.swing.GroupLayout.DEFAULT_SIZE, 231, Short.MAX_VALUE)
                         .addComponent(mSizeFld)
@@ -185,7 +195,9 @@ public class MainMenu extends javax.swing.JFrame {
                 .addGroup(modifyLotsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
                     .addComponent(mPriceFld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 109, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 81, Short.MAX_VALUE)
+                .addComponent(mClearBtn)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(modifyLotsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(backButton1)
                     .addComponent(modifyButton))
@@ -535,11 +547,22 @@ public class MainMenu extends javax.swing.JFrame {
 
     private void modifyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modifyButtonActionPerformed
         // TODO add your handling code here:
+        boolean hasError = false;
         try {
+            if (Float.parseFloat(mPriceFld.getText())<minPrice||Float.parseFloat(mSizeFld.getText())<minSize) {
+                throw new Exception("Input is lower than minimum values");
+            }
+            else if (Float.parseFloat(mPriceFld.getText())>maxPrice||Float.parseFloat(mSizeFld.getText())>maxSize) {
+                throw new Exception("Input is higher than maximum values");
+            }
             manager.updateLot(Integer.parseInt(mBlockFld.getText()), Integer.parseInt(mLotFld.getText()), Float.parseFloat(mPriceFld.getText()) , Float.parseFloat(mSizeFld.getText()));
         }
         catch (Exception e) {
-            JOptionPane.showMessageDialog(this,e.getMessage() ,"Error empty fields!",JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this,e.getMessage() ,"Error",JOptionPane.WARNING_MESSAGE);
+            hasError = true;
+        }
+        if (!hasError) {
+            mClearBtnActionPerformed(evt);
         }
     }//GEN-LAST:event_modifyButtonActionPerformed
 
@@ -550,6 +573,14 @@ public class MainMenu extends javax.swing.JFrame {
         parentPanel.revalidate();
     }//GEN-LAST:event_backButton2ActionPerformed
 
+    private void mClearBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mClearBtnActionPerformed
+        // TODO add your handling code here:
+        mSizeFld.setText("");
+        mBlockFld.setText("");
+        mLotFld.setText("");
+        mPriceFld.setText("");
+    }//GEN-LAST:event_mClearBtnActionPerformed
+    
     /**
      * @param args the command line arguments
      */
@@ -606,6 +637,7 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextField mBlockFld;
+    private javax.swing.JButton mClearBtn;
     private javax.swing.JTextField mLotFld;
     private javax.swing.JTextField mPriceFld;
     private javax.swing.JTextField mSizeFld;
