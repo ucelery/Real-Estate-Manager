@@ -1,5 +1,7 @@
 package MyApp;
 
+import MyLibs.*;
+import javax.swing.JOptionPane;
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
@@ -17,7 +19,8 @@ public class Main extends javax.swing.JFrame {
     public Main() {
         initComponents();
     }
-
+    Agent agent = new Agent("User", "OOP", "OOP-Test", "pw123");
+    MainMenu mainMenu = new MainMenu();
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -31,10 +34,10 @@ public class Main extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        passwordFld = new javax.swing.JPasswordField();
         usernameFld = new javax.swing.JTextField();
         loginBtn = new javax.swing.JButton();
         exitBtn = new javax.swing.JButton();
+        passwordFld = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -50,14 +53,30 @@ public class Main extends javax.swing.JFrame {
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel4.setText("Password:");
 
+        usernameFld.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                usernameFldActionPerformed(evt);
+            }
+        });
+
         loginBtn.setText("LOGIN");
         loginBtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 loginBtnMouseClicked(evt);
             }
         });
+        loginBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                loginBtnActionPerformed(evt);
+            }
+        });
 
         exitBtn.setText("EXIT");
+        exitBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exitBtnActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -81,8 +100,8 @@ public class Main extends javax.swing.JFrame {
                             .addComponent(jLabel3))
                         .addGap(65, 65, 65)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(passwordFld, javax.swing.GroupLayout.DEFAULT_SIZE, 226, Short.MAX_VALUE)
-                            .addComponent(usernameFld)))
+                            .addComponent(usernameFld, javax.swing.GroupLayout.DEFAULT_SIZE, 226, Short.MAX_VALUE)
+                            .addComponent(passwordFld)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(182, 182, 182)
                         .addComponent(loginBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -122,6 +141,33 @@ public class Main extends javax.swing.JFrame {
         moves to mainMenu once credentials are valid
         */
     }//GEN-LAST:event_loginBtnMouseClicked
+
+    private void exitBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitBtnActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_exitBtnActionPerformed
+
+    private void loginBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginBtnActionPerformed
+        
+        String inpUsername = usernameFld.getText();
+        String inpPassword = String.valueOf(passwordFld.getPassword());
+        
+        if (agent.getUserName().equals(inpUsername)&& agent.getPassword().equals(inpPassword)){
+            mainMenu.setVisible(true);
+            setVisible(false);
+            dispose();
+        }
+        
+        else{
+            JOptionPane.showMessageDialog(this,"Invalid Username or Password. Please try again.");
+        }
+
+            
+        
+    }//GEN-LAST:event_loginBtnActionPerformed
+
+    private void usernameFldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usernameFldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_usernameFldActionPerformed
 
     /**
      * @param args the command line arguments

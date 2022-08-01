@@ -5,7 +5,12 @@
 package MyApp;
 
 import MyLibs.*;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Random;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 
@@ -15,32 +20,48 @@ import javax.swing.table.DefaultTableModel;
  */
 public class MainMenu extends javax.swing.JFrame {
     
-    ArrayList<Block> blocks = new ArrayList<Block>();
+    ArrayList<Block> blocks = new ArrayList<>();
+    Manager manager;
+    int minPrice = 5000, maxPrice = 15000, minSize = 40, maxSize = 250, blockLimit = 5, lotLimit = 20;
     public MainMenu() {
         initComponents();
-        
-        // Sample data
-        for (int i = 0; i < 5; i++) {
+        // Default hardcoded data
+        //randomized 40-200 for size, price = 5000-15000, 
+        for (int i = 0; i < blockLimit; i++) {
             Block block = new Block(i + 1);
-            for (int j = 0; j < 20; j++) {
-                Lot lot = new Lot(10, j + 1, 10000, "available");
+            for (int j = 0; j < lotLimit; j++) {
+                Random rPrice = new Random();
+                Random rSize = new Random();
+                float price = rPrice.nextInt(maxPrice-minPrice)+minPrice;
+                float size = rSize.nextInt(maxSize-minSize)+minSize;
+                Lot lot = new Lot(size, j + 1, price);
                 block.getLots().add(lot);
             }
-            
             blocks.add(block);
         }
-        
+        manager = new Manager(blocks);
         DefaultTableModel model = (DefaultTableModel) sTable.getModel();
-        
-        for (Block block : blocks) {
+        model.setRowCount(0);
+        for (Block block : manager.getArrayList()) {
             for (Lot lot : block.getLots()) {
                 model.addRow(new Object[]{
                     block.getBlockNum(), lot.getLotNum(), lot.getSize(), lot.getPrice()}
                 );
             }
-        }
-        
+        }    
         sTable.setAutoCreateRowSorter(true);
+        
+        // Table for Generating Report
+        DefaultTableModel mod = (DefaultTableModel) gTable.getModel();
+        mod.setRowCount(0);
+        for (int v = 0;v<blockLimit;v++) {
+            for(int z = 0; z<lotLimit;z++) {
+                mod.insertRow(mod.getRowCount(),new Object[] {
+                    manager.getArrayList().get(v).getBlockNum(), manager.getArrayList().get(v).getLots().get(z).getLotNum(), manager.getArrayList().get(v).getLots().get(z).getSize(), manager.getArrayList().get(v).getLots().get(z).getPrice(), manager.getArrayList().get(v).getLots().get(z).getStatus()}
+                );
+            }
+        }
+        gTable.setAutoCreateRowSorter(true);
     }
     
     /**
@@ -71,11 +92,13 @@ public class MainMenu extends javax.swing.JFrame {
         modifyButton = new javax.swing.JButton();
         jLabel14 = new javax.swing.JLabel();
         mLotFld = new javax.swing.JTextField();
+        mClearBtn = new javax.swing.JButton();
         showLots = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         backButton2 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         sTable = new javax.swing.JTable();
+        sRefreshBtn = new javax.swing.JButton();
         processLots = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         pLotFld = new javax.swing.JTextField();
@@ -84,13 +107,19 @@ public class MainMenu extends javax.swing.JFrame {
         jLabel16 = new javax.swing.JLabel();
         pStatusCbx = new javax.swing.JComboBox<>();
         backButton3 = new javax.swing.JButton();
-        resButton = new javax.swing.JButton();
+        pSubmitBtn = new javax.swing.JButton();
         pBlockCbx = new javax.swing.JComboBox<>();
+        clientFirstFld = new javax.swing.JTextField();
+        clientLastFld = new javax.swing.JTextField();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
         genRep = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         backButton4 = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         gTable = new javax.swing.JTable();
+        gBtn = new javax.swing.JButton();
+        gBtn1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -164,7 +193,7 @@ public class MainMenu extends javax.swing.JFrame {
                 .addGroup(mainMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(procLotsButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(genRepButton, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(75, Short.MAX_VALUE))
+                .addContainerGap(81, Short.MAX_VALUE))
         );
 
         parentPanel.add(mainMenu, "card2");
@@ -199,6 +228,13 @@ public class MainMenu extends javax.swing.JFrame {
         jLabel14.setFont(new java.awt.Font("Sitka Text", 0, 18)); // NOI18N
         jLabel14.setText("Lot:");
 
+        mClearBtn.setText("Clear");
+        mClearBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mClearBtnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout modifyLotsLayout = new javax.swing.GroupLayout(modifyLots);
         modifyLots.setLayout(modifyLotsLayout);
         modifyLotsLayout.setHorizontalGroup(
@@ -207,27 +243,24 @@ public class MainMenu extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel2)
                 .addGap(216, 216, 216))
-            .addGroup(modifyLotsLayout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, modifyLotsLayout.createSequentialGroup()
                 .addGap(156, 156, 156)
                 .addGroup(modifyLotsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel14)
+                    .addComponent(jLabel7)
+                    .addComponent(jLabel8)
+                    .addComponent(jLabel6)
+                    .addComponent(modifyButton))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 76, Short.MAX_VALUE)
+                .addGroup(modifyLotsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, modifyLotsLayout.createSequentialGroup()
-                        .addComponent(modifyButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
-                    .addGroup(modifyLotsLayout.createSequentialGroup()
-                        .addGroup(modifyLotsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel14)
-                            .addComponent(jLabel7)
-                            .addComponent(jLabel8)
-                            .addComponent(jLabel6))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addGroup(modifyLotsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(modifyLotsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(mPriceFld, javax.swing.GroupLayout.DEFAULT_SIZE, 231, Short.MAX_VALUE)
-                        .addComponent(mSizeFld)
-                        .addComponent(mBlockFld)
-                        .addGroup(modifyLotsLayout.createSequentialGroup()
-                            .addGap(79, 79, 79)
-                            .addComponent(backButton1)))
+                        .addGap(12, 12, 12)
+                        .addComponent(mClearBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(backButton1))
+                    .addComponent(mPriceFld)
+                    .addComponent(mSizeFld)
+                    .addComponent(mBlockFld)
                     .addComponent(mLotFld, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(117, 117, 117))
         );
@@ -252,11 +285,12 @@ public class MainMenu extends javax.swing.JFrame {
                 .addGroup(modifyLotsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
                     .addComponent(mPriceFld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 109, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 81, Short.MAX_VALUE)
                 .addGroup(modifyLotsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(backButton1)
-                    .addComponent(modifyButton))
-                .addGap(52, 52, 52))
+                    .addComponent(mClearBtn)
+                    .addComponent(modifyButton)
+                    .addComponent(backButton1))
+                .addGap(86, 86, 86))
         );
 
         parentPanel.add(modifyLots, "card3");
@@ -290,6 +324,13 @@ public class MainMenu extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(sTable);
 
+        sRefreshBtn.setText("Refresh");
+        sRefreshBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                sRefreshBtnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout showLotsLayout = new javax.swing.GroupLayout(showLots);
         showLots.setLayout(showLotsLayout);
         showLotsLayout.setHorizontalGroup(
@@ -300,8 +341,11 @@ public class MainMenu extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(showLotsLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(showLotsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(backButton2)
+                .addGroup(showLotsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(showLotsLayout.createSequentialGroup()
+                        .addComponent(sRefreshBtn)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(backButton2))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 596, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -313,7 +357,9 @@ public class MainMenu extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(backButton2)
+                .addGroup(showLotsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(backButton2)
+                    .addComponent(sRefreshBtn))
                 .addContainerGap(104, Short.MAX_VALUE))
         );
 
@@ -341,9 +387,24 @@ public class MainMenu extends javax.swing.JFrame {
             }
         });
 
-        resButton.setText("Submit");
+        pSubmitBtn.setText("Submit");
+        pSubmitBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pSubmitBtnActionPerformed(evt);
+            }
+        });
 
         pBlockCbx.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5" }));
+
+        clientFirstFld.setFont(new java.awt.Font("Sitka Text", 0, 14)); // NOI18N
+
+        clientLastFld.setFont(new java.awt.Font("Sitka Text", 0, 14)); // NOI18N
+
+        jLabel9.setFont(new java.awt.Font("Sitka Text", 0, 14)); // NOI18N
+        jLabel9.setText("First name:");
+
+        jLabel10.setFont(new java.awt.Font("Sitka Text", 0, 14)); // NOI18N
+        jLabel10.setText("Last name:");
 
         javax.swing.GroupLayout processLotsLayout = new javax.swing.GroupLayout(processLots);
         processLots.setLayout(processLotsLayout);
@@ -356,22 +417,26 @@ public class MainMenu extends javax.swing.JFrame {
                         .addGroup(processLotsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel12)
                             .addComponent(jLabel15)
-                            .addComponent(jLabel16))
+                            .addComponent(jLabel16)
+                            .addComponent(jLabel9)
+                            .addComponent(jLabel10))
                         .addGap(87, 87, 87)
-                        .addGroup(processLotsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(processLotsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(pLotFld)
-                                .addComponent(pStatusCbx, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(pBlockCbx, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(processLotsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(pLotFld)
+                            .addComponent(pStatusCbx, 0, 182, Short.MAX_VALUE)
+                            .addComponent(pBlockCbx, 0, 182, Short.MAX_VALUE)
+                            .addComponent(clientFirstFld)
+                            .addComponent(clientLastFld))
                         .addGap(126, 126, 126))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, processLotsLayout.createSequentialGroup()
                         .addComponent(jLabel4)
-                        .addGap(227, 227, 227))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, processLotsLayout.createSequentialGroup()
-                        .addComponent(resButton)
-                        .addGap(87, 87, 87)
-                        .addComponent(backButton3)
-                        .addGap(209, 209, 209))))
+                        .addGap(227, 227, 227))))
+            .addGroup(processLotsLayout.createSequentialGroup()
+                .addGap(232, 232, 232)
+                .addComponent(pSubmitBtn)
+                .addGap(51, 51, 51)
+                .addComponent(backButton3)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         processLotsLayout.setVerticalGroup(
             processLotsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -390,11 +455,19 @@ public class MainMenu extends javax.swing.JFrame {
                 .addGroup(processLotsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel16)
                     .addComponent(pStatusCbx, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 84, Short.MAX_VALUE)
+                .addGap(34, 34, 34)
                 .addGroup(processLotsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(resButton)
+                    .addComponent(clientFirstFld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel9))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
+                .addGroup(processLotsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(clientLastFld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel10))
+                .addGap(34, 34, 34)
+                .addGroup(processLotsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(pSubmitBtn)
                     .addComponent(backButton3))
-                .addGap(111, 111, 111))
+                .addGap(57, 57, 57))
         );
 
         parentPanel.add(processLots, "card5");
@@ -424,14 +497,24 @@ public class MainMenu extends javax.swing.JFrame {
         gTable.getTableHeader().setReorderingAllowed(false);
         jScrollPane2.setViewportView(gTable);
 
+        gBtn.setText("Generate CSV");
+        gBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                gBtnActionPerformed(evt);
+            }
+        });
+
+        gBtn1.setText("Generate File");
+        gBtn1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                gBtn1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout genRepLayout = new javax.swing.GroupLayout(genRep);
         genRep.setLayout(genRepLayout);
         genRepLayout.setHorizontalGroup(
             genRepLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, genRepLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(backButton4)
-                .addGap(287, 287, 287))
             .addGroup(genRepLayout.createSequentialGroup()
                 .addGroup(genRepLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(genRepLayout.createSequentialGroup()
@@ -439,19 +522,32 @@ public class MainMenu extends javax.swing.JFrame {
                         .addComponent(jLabel5))
                     .addGroup(genRepLayout.createSequentialGroup()
                         .addGap(19, 19, 19)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 614, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 614, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(genRepLayout.createSequentialGroup()
+                        .addGap(270, 270, 270)
+                        .addComponent(backButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(19, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, genRepLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(gBtn1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(gBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(188, 188, 188))
         );
         genRepLayout.setVerticalGroup(
             genRepLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(genRepLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(18, Short.MAX_VALUE)
                 .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 351, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(genRepLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(gBtn1)
+                    .addComponent(gBtn))
+                .addGap(3, 3, 3)
                 .addComponent(backButton4)
-                .addGap(34, 34, 34))
+                .addGap(15, 15, 15))
         );
 
         parentPanel.add(genRep, "card6");
@@ -529,6 +625,33 @@ public class MainMenu extends javax.swing.JFrame {
 
     private void modifyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modifyButtonActionPerformed
         // TODO add your handling code here:
+        boolean hasError = false;
+        try {
+            if (Integer.parseInt(mBlockFld.getText())>blockLimit||Integer.parseInt(mLotFld.getText())>lotLimit) {
+                throw new Exception("Block/Lot number is out of bounds");
+            }
+            else if (Integer.parseInt(mBlockFld.getText())<1||Integer.parseInt(mLotFld.getText())<1) {
+                throw new Exception("Block/Lot number is zero or negative");
+            }
+            else if (Float.parseFloat(mPriceFld.getText())<minPrice||Float.parseFloat(mSizeFld.getText())<minSize) {
+                throw new Exception("Input is lower than minimum values");
+            }
+            else if (Float.parseFloat(mPriceFld.getText())>maxPrice||Float.parseFloat(mSizeFld.getText())>maxSize) {
+                throw new Exception("Input is higher than maximum values");
+            }
+            else
+                manager.updateLot(Integer.parseInt(mBlockFld.getText()), Integer.parseInt(mLotFld.getText()), Float.parseFloat(mPriceFld.getText()) , Float.parseFloat(mSizeFld.getText()));
+        }
+        catch (Exception e) {
+            JOptionPane.showMessageDialog(this,e.getMessage() ,"Error",JOptionPane.WARNING_MESSAGE);
+            hasError = true;
+        }
+        if (!hasError) {
+            mClearBtnActionPerformed(evt);
+            JOptionPane.showMessageDialog(this, "Lot updated!");
+        }
+        //sRefreshBtnActionPerformed(evt);
+        //gBtnActionPerformed(evt);
     }//GEN-LAST:event_modifyButtonActionPerformed
 
     private void backButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButton2ActionPerformed
@@ -538,6 +661,139 @@ public class MainMenu extends javax.swing.JFrame {
         parentPanel.revalidate();
     }//GEN-LAST:event_backButton2ActionPerformed
 
+    private void mClearBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mClearBtnActionPerformed
+        // TODO add your handling code here:
+        mSizeFld.setText("");
+        mBlockFld.setText("");
+        mLotFld.setText("");
+        mPriceFld.setText("");
+    }//GEN-LAST:event_mClearBtnActionPerformed
+
+    private void sRefreshBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sRefreshBtnActionPerformed
+        // TODO add your handling code here:
+        DefaultTableModel mod = (DefaultTableModel) sTable.getModel();
+        mod.setRowCount(0);
+        for (int v = 0;v<blockLimit;v++) {
+            for(int z = 0; z<lotLimit;z++) {
+                mod.insertRow(mod.getRowCount(),new Object[] {
+                manager.getArrayList().get(v).getBlockNum(), manager.getArrayList().get(v).getLots().get(z).getLotNum(), manager.getArrayList().get(v).getLots().get(z).getSize(), manager.getArrayList().get(v).getLots().get(z).getPrice()}
+                );
+            }
+        }
+        sTable.setAutoCreateRowSorter(true);
+    }//GEN-LAST:event_sRefreshBtnActionPerformed
+
+    private void pSubmitBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pSubmitBtnActionPerformed
+        // TODO add your handling code here:
+        //need try block and JOptionPane response.
+        boolean hasError = false;
+        try {
+            if (Integer.parseInt(pLotFld.getText())>lotLimit||Integer.parseInt(pLotFld.getText())<1) {
+                throw new Exception("Lot number is out of bounds");
+            }
+            else if (clientFirstFld.getText().length()<1||clientLastFld.getText().length()<1) {
+                throw new Exception("Empty field on client name");
+            }
+            else 
+                manager.updateLotStatus(Integer.parseInt(pBlockCbx.getSelectedItem().toString()), Integer.parseInt(pLotFld.getText()), manager.generateClient(clientFirstFld.getText(), clientLastFld.getText(), clientFirstFld.getText().charAt(0)+clientLastFld.getText()), pStatusCbx.getSelectedItem().toString());
+        }
+        catch (Exception e) {
+            JOptionPane.showMessageDialog(this,e.getMessage() ,"Error",JOptionPane.WARNING_MESSAGE);
+            hasError = true;
+        }
+        if (!hasError) {
+            //return back to default values
+            pLotFld.setText("");
+            clientFirstFld.setText("");
+            clientLastFld.setText("");
+            JOptionPane.showMessageDialog(this, "Status updated to: "+pStatusCbx.getSelectedItem().toString());
+        }
+        //sRefreshBtnActionPerformed(evt);
+        //gBtnActionPerformed(evt);
+    }//GEN-LAST:event_pSubmitBtnActionPerformed
+
+    private void gBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gBtnActionPerformed
+        // TODO add your handling code here:
+        //        
+        // CSV
+        //
+        try {
+            JFileChooser chooser = new JFileChooser(); 
+            chooser.setCurrentDirectory(new java.io.File("."));
+            chooser.setDialogTitle("Select Report Destination");
+            chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+            chooser.setAcceptAllFileFilterUsed(false);
+                
+            if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) { 
+                System.out.println("getCurrentDirectory(): " 
+                   +  chooser.getCurrentDirectory());
+                System.out.println("getSelectedFile() : " 
+                   +  chooser.getSelectedFile() + "\\report.txt");
+                
+                FileWriter myWriter = new FileWriter(chooser.getSelectedFile() + "\\reportCSV.txt");
+                for (Block block : blocks) {
+                    for (Lot lot : block.getLots()) {
+                        // Owner string
+                        String owner;
+                        if (lot.getOwner() == null) {
+                            owner = "N/A";
+                        } else {
+                            owner = lot.getOwner().getFullName();
+                        }
+                        
+                        myWriter.write(block.getBlockNum() + "," + lot.getLotNum() + "," + lot.getSize() + "," + lot.getPrice() + "," + lot.getStatus() + "," + owner + "\n");
+                    }
+                }
+                myWriter.close();
+            }
+            else {
+                System.out.println("No Selection ");
+            }
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_gBtnActionPerformed
+
+    private void gBtn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gBtn1ActionPerformed
+        try {
+            JFileChooser chooser = new JFileChooser(); 
+            chooser.setCurrentDirectory(new java.io.File("."));
+            chooser.setDialogTitle("Select Report Destination");
+            chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+            chooser.setAcceptAllFileFilterUsed(false);
+                
+            if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) { 
+                System.out.println("getCurrentDirectory(): " 
+                   +  chooser.getCurrentDirectory());
+                System.out.println("getSelectedFile() : " 
+                   +  chooser.getSelectedFile() + "\\report.txt");
+                
+                FileWriter myWriter = new FileWriter(chooser.getSelectedFile() + "\\report.txt");
+                for (Block block : blocks) {
+                    for (Lot lot : block.getLots()) {
+                        // Owner string
+                        String owner;
+                        if (lot.getOwner() == null) {
+                            owner = "";
+                        } else {
+                            owner = lot.getOwner().getFullName();
+                        }
+                        
+                        myWriter.write("Block " + block.getBlockNum() + " Lot " + lot.getLotNum() + " " + lot.getSize() + " " + lot.getPrice() + " " + lot.getStatus() + " " + owner + "\n");
+                    }
+                }
+                myWriter.close();
+            }
+            else {
+                System.out.println("No Selection ");
+            }
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_gBtn1ActionPerformed
+    
     /**
      * @param args the command line arguments
      */
@@ -576,10 +832,15 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JButton backButton2;
     private javax.swing.JButton backButton3;
     private javax.swing.JButton backButton4;
+    private javax.swing.JTextField clientFirstFld;
+    private javax.swing.JTextField clientLastFld;
+    private javax.swing.JButton gBtn;
+    private javax.swing.JButton gBtn1;
     private javax.swing.JTable gTable;
     private javax.swing.JPanel genRep;
     private javax.swing.JButton genRepButton;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
@@ -591,9 +852,11 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextField mBlockFld;
+    private javax.swing.JButton mClearBtn;
     private javax.swing.JTextField mLotFld;
     private javax.swing.JTextField mPriceFld;
     private javax.swing.JTextField mSizeFld;
@@ -604,10 +867,11 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> pBlockCbx;
     private javax.swing.JTextField pLotFld;
     private javax.swing.JComboBox<String> pStatusCbx;
+    private javax.swing.JButton pSubmitBtn;
     private javax.swing.JPanel parentPanel;
     private javax.swing.JButton procLotsButton;
     private javax.swing.JPanel processLots;
-    private javax.swing.JButton resButton;
+    private javax.swing.JButton sRefreshBtn;
     private javax.swing.JTable sTable;
     private javax.swing.JButton showLotButton;
     private javax.swing.JPanel showLots;

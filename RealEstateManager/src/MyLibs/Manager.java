@@ -34,37 +34,34 @@ public class Manager implements Mediator {
      */
     @Override
     public void updateLotStatus(int blockNum, int lotNum, Client client, String status) {
-        Lot refLot = blocks.get(blockNum).getLots().get(lotNum);
-        refLot.setOwner(client);
-        refLot.setStatus(status);
+        blocks.get(blockNum-1).getLots().get(lotNum-1).setOwner(client);
+        blocks.get(blockNum-1).getLots().get(lotNum-1).setStatus(status);
+        
     }
 
     /**
      * Updates lot description by passing a new lot object
      * @param blockNum block number index
      * @param lotNum Lot number index
-     * @param newLot new lot object
+     * @param price price
+     * @param size size
      */
     @Override
-    public void updateLot(int blockNum, int lotNum, Lot newLot) {
+    public void updateLot(int blockNum, int lotNum, float price, float size) {
         // update lot based on index, subject to change
         // if you could think a better method let us know
-        Lot refLot = blocks.get(blockNum).getLots().get(lotNum);
-        refLot.setLotNum(newLot.getLotNum());
-        refLot.setOwner(newLot.getOwner());
-        refLot.setPrice(newLot.getPrice());
-        refLot.setSize(newLot.getSize());
-        refLot.setStatus(newLot.getStatus());
+        blocks.get(blockNum-1).getLots().get(lotNum-1).setPrice(price);//fix by -1 coz of the hardcoded data
+        blocks.get(blockNum-1).getLots().get(lotNum-1).setSize(size);
     }
     
     /**
      * displays the report that should show all the lots and their complete information 
-     * like location (block no. and lot no.) or status ("available", "sold", "reserved")
+     * like location (block no.and lot no.) or status ("available", "sold", "reserved")
+     * @throws java.io.FileNotFoundException
      */
-    public void generateReport() {
-        
-    }
-    
+//    public void generateReport() {
+//    }
+//    
     /**
      * Generates a client, object
      * @param fname sets the client's First Name
@@ -74,5 +71,9 @@ public class Manager implements Mediator {
      */
     public Client generateClient(String fname, String lname, String sig) {
         return new Client(fname, lname, sig);
+    }
+    
+    public Agent generateAgent(String fname, String lname, String user, String pw) {
+        return new Agent(fname, lname, user, pw);
     }
 }

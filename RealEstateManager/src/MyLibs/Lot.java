@@ -20,7 +20,7 @@ public class Lot {
         this.size = size;
         this.lotNum = lotNum;
         this.price = price;
-        this.status = status;
+        this.status = status.toLowerCase();
     }
     
     // Getters
@@ -58,7 +58,7 @@ public class Lot {
     }
 
     public void setStatus(String status) {
-        this.status = status;
+        this.status = status.toLowerCase();
     }
 
     public void setOwner(Client owner) {
