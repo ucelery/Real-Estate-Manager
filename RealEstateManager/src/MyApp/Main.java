@@ -153,6 +153,8 @@ public class Main extends javax.swing.JFrame {
         
         if (agent.getUserName().equals(inpUsername)&& agent.getPassword().equals(inpPassword)){
             mainMenu.setVisible(true);
+            setVisible(false);
+            dispose();
         }
         
         else{
