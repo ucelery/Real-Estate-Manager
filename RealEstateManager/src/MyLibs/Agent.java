@@ -18,6 +18,11 @@ public class Agent extends Person {
         return userName;
     }
 
+    public String getPassword() {
+        return password;
+    }
+    
+
     public void setUserName(String userName) {
         this.userName = userName;
     }
