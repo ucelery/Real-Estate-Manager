@@ -5,8 +5,11 @@
 package MyApp;
 
 import MyLibs.*;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -47,6 +50,18 @@ public class MainMenu extends javax.swing.JFrame {
             }
         }    
         sTable.setAutoCreateRowSorter(true);
+        
+        // Table for Generating Report
+        DefaultTableModel mod = (DefaultTableModel) gTable.getModel();
+        mod.setRowCount(0);
+        for (int v = 0;v<blockLimit;v++) {
+            for(int z = 0; z<lotLimit;z++) {
+                mod.insertRow(mod.getRowCount(),new Object[] {
+                    manager.getArrayList().get(v).getBlockNum(), manager.getArrayList().get(v).getLots().get(z).getLotNum(), manager.getArrayList().get(v).getLots().get(z).getSize(), manager.getArrayList().get(v).getLots().get(z).getPrice(), manager.getArrayList().get(v).getLots().get(z).getStatus()}
+                );
+            }
+        }
+        gTable.setAutoCreateRowSorter(true);
     }
     
     /**
@@ -104,6 +119,7 @@ public class MainMenu extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         gTable = new javax.swing.JTable();
         gBtn = new javax.swing.JButton();
+        gBtn1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -481,10 +497,17 @@ public class MainMenu extends javax.swing.JFrame {
         gTable.getTableHeader().setReorderingAllowed(false);
         jScrollPane2.setViewportView(gTable);
 
-        gBtn.setText("Generate");
+        gBtn.setText("Generate CSV");
         gBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 gBtnActionPerformed(evt);
+            }
+        });
+
+        gBtn1.setText("Generate File");
+        gBtn1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                gBtn1ActionPerformed(evt);
             }
         });
 
@@ -501,22 +524,28 @@ public class MainMenu extends javax.swing.JFrame {
                         .addGap(19, 19, 19)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 614, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(genRepLayout.createSequentialGroup()
-                        .addGap(285, 285, 285)
-                        .addGroup(genRepLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(gBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(backButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGap(270, 270, 270)
+                        .addComponent(backButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(19, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, genRepLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(gBtn1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(gBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(188, 188, 188))
         );
         genRepLayout.setVerticalGroup(
             genRepLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(genRepLayout.createSequentialGroup()
-                .addContainerGap(12, Short.MAX_VALUE)
+                .addContainerGap(18, Short.MAX_VALUE)
                 .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 351, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(gBtn)
-                .addGap(9, 9, 9)
+                .addGroup(genRepLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(gBtn1)
+                    .addComponent(gBtn))
+                .addGap(3, 3, 3)
                 .addComponent(backButton4)
                 .addGap(15, 15, 15))
         );
@@ -685,32 +714,85 @@ public class MainMenu extends javax.swing.JFrame {
 
     private void gBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gBtnActionPerformed
         // TODO add your handling code here:
-        //outstream and show table
-        DefaultTableModel mod = (DefaultTableModel) gTable.getModel();
-        mod.setRowCount(0);
-        for (int v = 0;v<blockLimit;v++) {
-            for(int z = 0; z<lotLimit;z++) {
-                mod.insertRow(mod.getRowCount(),new Object[] {
-                manager.getArrayList().get(v).getBlockNum(), manager.getArrayList().get(v).getLots().get(z).getLotNum(), manager.getArrayList().get(v).getLots().get(z).getSize(), manager.getArrayList().get(v).getLots().get(z).getPrice(), manager.getArrayList().get(v).getLots().get(z).getStatus()}
-                );
+        //        
+        // CSV
+        //
+        try {
+            JFileChooser chooser = new JFileChooser(); 
+            chooser.setCurrentDirectory(new java.io.File("."));
+            chooser.setDialogTitle("Select Report Destination");
+            chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+            chooser.setAcceptAllFileFilterUsed(false);
+                
+            if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) { 
+                System.out.println("getCurrentDirectory(): " 
+                   +  chooser.getCurrentDirectory());
+                System.out.println("getSelectedFile() : " 
+                   +  chooser.getSelectedFile() + "\\report.txt");
+                
+                FileWriter myWriter = new FileWriter(chooser.getSelectedFile() + "\\reportCSV.txt");
+                for (Block block : blocks) {
+                    for (Lot lot : block.getLots()) {
+                        // Owner string
+                        String owner;
+                        if (lot.getOwner() == null) {
+                            owner = "N/A";
+                        } else {
+                            owner = lot.getOwner().getFullName();
+                        }
+                        
+                        myWriter.write(block.getBlockNum() + "," + lot.getLotNum() + "," + lot.getSize() + "," + lot.getPrice() + "," + lot.getStatus() + "," + owner + "\n");
+                    }
+                }
+                myWriter.close();
             }
+            else {
+                System.out.println("No Selection ");
+            }
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
         }
-        gTable.setAutoCreateRowSorter(true);
-        //automated try catch block
-//        FileOutputStream fos = null;
-//        try {
-//            fos = new FileOutputStream("Report.txt");
-//        } catch (FileNotFoundException ex) {
-//            Logger.getLogger(MainMenu.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//        try (PrintWriter writer = new PrintWriter(fos)) {
-//            for (Block block : blocks) {
-//                for (Lot lot : block.getLots()) {
-//                    writer.println("Block " + block.getBlockNum()+" Lot "+lot.getLotNum()+" "+lot.getSize()+" "+lot.getPrice()+" "+lot.getStatus()+" "+lot.getOwner().getFullName());
-//                }
-//            }
-//        }
     }//GEN-LAST:event_gBtnActionPerformed
+
+    private void gBtn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gBtn1ActionPerformed
+        try {
+            JFileChooser chooser = new JFileChooser(); 
+            chooser.setCurrentDirectory(new java.io.File("."));
+            chooser.setDialogTitle("Select Report Destination");
+            chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+            chooser.setAcceptAllFileFilterUsed(false);
+                
+            if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) { 
+                System.out.println("getCurrentDirectory(): " 
+                   +  chooser.getCurrentDirectory());
+                System.out.println("getSelectedFile() : " 
+                   +  chooser.getSelectedFile() + "\\report.txt");
+                
+                FileWriter myWriter = new FileWriter(chooser.getSelectedFile() + "\\report.txt");
+                for (Block block : blocks) {
+                    for (Lot lot : block.getLots()) {
+                        // Owner string
+                        String owner;
+                        if (lot.getOwner() == null) {
+                            owner = "";
+                        } else {
+                            owner = lot.getOwner().getFullName();
+                        }
+                        
+                        myWriter.write("Block " + block.getBlockNum() + " Lot " + lot.getLotNum() + " " + lot.getSize() + " " + lot.getPrice() + " " + lot.getStatus() + " " + owner + "\n");
+                    }
+                }
+                myWriter.close();
+            }
+            else {
+                System.out.println("No Selection ");
+            }
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_gBtn1ActionPerformed
     
     /**
      * @param args the command line arguments
@@ -753,6 +835,7 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JTextField clientFirstFld;
     private javax.swing.JTextField clientLastFld;
     private javax.swing.JButton gBtn;
+    private javax.swing.JButton gBtn1;
     private javax.swing.JTable gTable;
     private javax.swing.JPanel genRep;
     private javax.swing.JButton genRepButton;
