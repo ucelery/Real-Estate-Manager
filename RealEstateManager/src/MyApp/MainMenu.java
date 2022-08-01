@@ -17,7 +17,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class MainMenu extends javax.swing.JFrame {
     
-    ArrayList<Block> blocks = new ArrayList<Block>();
+    ArrayList<Block> blocks = new ArrayList<>();
     public MainMenu() {
         initComponents();
         // Default data
