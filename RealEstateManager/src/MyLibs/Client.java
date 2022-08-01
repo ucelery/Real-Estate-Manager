@@ -16,7 +16,9 @@ public class Client extends Person{
     public String getSignature() {
         return this.signature;
     }
-    
+    public String getFullName() {
+        return this.firstName+" "+this.lastName;
+    }
     // Setters
     public void setSignature(String signature) {
         this.signature = signature;

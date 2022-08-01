@@ -27,40 +27,31 @@ public class Manager implements Mediator {
     
     /**
      * Updates lot status based on status input
-     * @param lot    the target lot to be updated
+     * @param blockNum the target block to be updated
+     * @param lotNum the target lot to be updated
      * @param client the assigned customer object
      * @param status possible status inputs are "available", "reserved", "sold"
      */
     @Override
-    public void updateLotStatus(Lot lot, Client client, String status) {
-        for (Block blockItem : blocks) {
-            for (Lot lotItem : blockItem.getLots()) {
-                if (lotItem == lot) {
-                    // Update lot status
-                    break;
-                }
-            }
-        }
+    public void updateLotStatus(int blockNum, int lotNum, Client client, String status) {
+        blocks.get(blockNum-1).getLots().get(lotNum-1).setOwner(client);
+        blocks.get(blockNum-1).getLots().get(lotNum-1).setStatus(status);
+        
     }
 
     /**
      * Updates lot description by passing a new lot object
      * @param blockNum block number index
      * @param lotNum Lot number index
-     * @param newLot new lot object
+     * @param price price
+     * @param size size
      */
     @Override
-    public void updateLot(int blockNum, int lotNum, Lot newLot) {
+    public void updateLot(int blockNum, int lotNum, float price, float size) {
         // update lot based on index, subject to change
         // if you could think a better method let us know
-    }
-    
-    /**
-     * displays all the lots in the form table or something
-     * @param choice for specs
-     */
-    public void displayLots(int choice) {
-        
+        blocks.get(blockNum-1).getLots().get(lotNum-1).setPrice(price);//fix by -1 coz of the hardcoded data
+        blocks.get(blockNum-1).getLots().get(lotNum-1).setSize(size);
     }
     
     /**
@@ -80,5 +71,9 @@ public class Manager implements Mediator {
      */
     public Client generateClient(String fname, String lname, String sig) {
         return new Client(fname, lname, sig);
+    }
+    
+    public Agent generateAgent(String fname, String lname, String user, String pw) {
+        return new Agent(fname, lname, user, pw);
     }
 }
