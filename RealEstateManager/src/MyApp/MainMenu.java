@@ -651,11 +651,18 @@ public class MainMenu extends javax.swing.JFrame {
         //need try block and JOptionPane response.
         boolean hasError = false;
         try {
-            
-            manager.updateLotStatus(Integer.parseInt(pBlockCbx.getSelectedItem().toString()), Integer.parseInt(pLotFld.getText()), manager.generateClient(clientFirstFld.getText(), clientLastFld.getText(), "TEMP"), pStatusCbx.getSelectedItem().toString());
+            if (Integer.parseInt(pLotFld.getText())>lotLimit||Integer.parseInt(pLotFld.getText())<1) {
+                throw new Exception("Lot number is out of bounds");
+            }
+            else if (clientFirstFld.getText().length()<1||clientLastFld.getText().length()<1) {
+                throw new Exception("Empty field on client name");
+            }
+            else 
+                manager.updateLotStatus(Integer.parseInt(pBlockCbx.getSelectedItem().toString()), Integer.parseInt(pLotFld.getText()), manager.generateClient(clientFirstFld.getText(), clientLastFld.getText(), clientFirstFld.getText().charAt(0)+clientLastFld.getText()), pStatusCbx.getSelectedItem().toString());
         }
         catch (Exception e) {
-            
+            JOptionPane.showMessageDialog(this,e.getMessage() ,"Error",JOptionPane.WARNING_MESSAGE);
+            hasError = true;
         }
         if (!hasError) {
             //return back to default values
