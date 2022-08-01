@@ -16,6 +16,7 @@ public class Block {
     
     public Block(int blockNum) {
         this.blockNum = blockNum;
+        this.lots = new ArrayList<>();
     }
     
     public Block(int blockNum, ArrayList<Lot> lots) {

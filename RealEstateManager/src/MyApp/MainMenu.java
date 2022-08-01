@@ -4,6 +4,10 @@
  */
 package MyApp;
 
+import MyLibs.*;
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
+
 
 /**
  *
@@ -11,12 +15,32 @@ package MyApp;
  */
 public class MainMenu extends javax.swing.JFrame {
     
-    
-    
+    ArrayList<Block> blocks = new ArrayList<Block>();
     public MainMenu() {
         initComponents();
         
-       
+        // Sample data
+        for (int i = 0; i < 5; i++) {
+            Block block = new Block(i + 1);
+            for (int j = 0; j < 20; j++) {
+                Lot lot = new Lot(10, j + 1, 10000, "available");
+                block.getLots().add(lot);
+            }
+            
+            blocks.add(block);
+        }
+        
+        DefaultTableModel model = (DefaultTableModel) sTable.getModel();
+        
+        for (Block block : blocks) {
+            for (Lot lot : block.getLots()) {
+                model.addRow(new Object[]{
+                    block.getBlockNum(), lot.getLotNum(), lot.getSize(), lot.getPrice()}
+                );
+            }
+        }
+        
+        sTable.setAutoCreateRowSorter(true);
     }
     
     /**
@@ -52,15 +76,6 @@ public class MainMenu extends javax.swing.JFrame {
         backButton2 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         sTable = new javax.swing.JTable();
-        jLabel9 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
-        sSizeFld = new javax.swing.JTextField();
-        sPriceFld = new javax.swing.JTextField();
-        sortButton = new javax.swing.JButton();
-        jLabel13 = new javax.swing.JLabel();
-        sStatusCbx = new javax.swing.JComboBox<>();
-        sBlockCbx = new javax.swing.JComboBox<>();
         processLots = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         pLotFld = new javax.swing.JTextField();
@@ -198,15 +213,13 @@ public class MainMenu extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, modifyLotsLayout.createSequentialGroup()
                         .addComponent(modifyButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, modifyLotsLayout.createSequentialGroup()
-                        .addComponent(jLabel14)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(modifyLotsLayout.createSequentialGroup()
                         .addGroup(modifyLotsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel14)
                             .addComponent(jLabel7)
                             .addComponent(jLabel8)
                             .addComponent(jLabel6))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 96, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGroup(modifyLotsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(modifyLotsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(mPriceFld, javax.swing.GroupLayout.DEFAULT_SIZE, 231, Short.MAX_VALUE)
@@ -261,66 +274,36 @@ public class MainMenu extends javax.swing.JFrame {
 
         sTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
                 "Block", "Lot", "Size", "Price"
             }
-        ));
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.Integer.class, java.lang.Float.class, java.lang.Float.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(sTable);
-
-        jLabel9.setFont(new java.awt.Font("Sitka Text", 0, 14)); // NOI18N
-        jLabel9.setText("Block:");
-
-        jLabel10.setFont(new java.awt.Font("Sitka Text", 0, 14)); // NOI18N
-        jLabel10.setText("Price:");
-
-        jLabel11.setFont(new java.awt.Font("Sitka Text", 0, 14)); // NOI18N
-        jLabel11.setText("Size:");
-
-        sortButton.setText("Sort");
-
-        jLabel13.setFont(new java.awt.Font("Sitka Text", 0, 14)); // NOI18N
-        jLabel13.setText("Status:");
-
-        sStatusCbx.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Available", "Reserved", "Sold" }));
-
-        sBlockCbx.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5" }));
 
         javax.swing.GroupLayout showLotsLayout = new javax.swing.GroupLayout(showLots);
         showLots.setLayout(showLotsLayout);
         showLotsLayout.setHorizontalGroup(
             showLotsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(showLotsLayout.createSequentialGroup()
-                .addGap(27, 27, 27)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 368, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
-                .addGroup(showLotsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel9)
-                    .addComponent(jLabel10)
-                    .addComponent(jLabel11)
-                    .addComponent(jLabel13)
-                    .addGroup(showLotsLayout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addGroup(showLotsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(sSizeFld, javax.swing.GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE)
-                            .addComponent(sPriceFld, javax.swing.GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE)
-                            .addComponent(sortButton)
-                            .addComponent(sStatusCbx, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(sBlockCbx, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addGap(29, 29, 29))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, showLotsLayout.createSequentialGroup()
+                .addGap(249, 249, 249)
+                .addComponent(jLabel3)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(showLotsLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(showLotsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, showLotsLayout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addGap(238, 238, 238))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, showLotsLayout.createSequentialGroup()
-                        .addComponent(backButton2)
-                        .addGap(284, 284, 284))))
+                .addGroup(showLotsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(backButton2)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 596, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         showLotsLayout.setVerticalGroup(
             showLotsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -328,29 +311,10 @@ public class MainMenu extends javax.swing.JFrame {
                 .addGap(20, 20, 20)
                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(showLotsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(showLotsLayout.createSequentialGroup()
-                        .addComponent(jLabel9)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(sBlockCbx, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(17, 17, 17)
-                        .addComponent(jLabel11)
-                        .addGap(3, 3, 3)
-                        .addComponent(sSizeFld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel10)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(sPriceFld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel13)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(sStatusCbx, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(sortButton)))
-                .addGap(51, 51, 51)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(backButton2)
-                .addContainerGap(53, Short.MAX_VALUE))
+                .addContainerGap(104, Short.MAX_VALUE))
         );
 
         parentPanel.add(showLots, "card4");
@@ -616,10 +580,7 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JPanel genRep;
     private javax.swing.JButton genRepButton;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
@@ -630,7 +591,6 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextField mBlockFld;
@@ -648,13 +608,8 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JButton procLotsButton;
     private javax.swing.JPanel processLots;
     private javax.swing.JButton resButton;
-    private javax.swing.JComboBox<String> sBlockCbx;
-    private javax.swing.JTextField sPriceFld;
-    private javax.swing.JTextField sSizeFld;
-    private javax.swing.JComboBox<String> sStatusCbx;
     private javax.swing.JTable sTable;
     private javax.swing.JButton showLotButton;
     private javax.swing.JPanel showLots;
-    private javax.swing.JButton sortButton;
     // End of variables declaration//GEN-END:variables
 }
