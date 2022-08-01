@@ -251,7 +251,7 @@ public class MainMenu extends javax.swing.JFrame {
                     .addComponent(jLabel8)
                     .addComponent(jLabel6)
                     .addComponent(modifyButton))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 76, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 82, Short.MAX_VALUE)
                 .addGroup(modifyLotsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, modifyLotsLayout.createSequentialGroup()
                         .addGap(12, 12, 12)
@@ -525,14 +525,13 @@ public class MainMenu extends javax.swing.JFrame {
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 614, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(genRepLayout.createSequentialGroup()
                         .addGap(270, 270, 270)
-                        .addComponent(backButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(backButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(genRepLayout.createSequentialGroup()
+                        .addGap(182, 182, 182)
+                        .addComponent(gBtn1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(gBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(19, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, genRepLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(gBtn1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(gBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(188, 188, 188))
         );
         genRepLayout.setVerticalGroup(
             genRepLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -725,11 +724,6 @@ public class MainMenu extends javax.swing.JFrame {
             chooser.setAcceptAllFileFilterUsed(false);
                 
             if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) { 
-                System.out.println("getCurrentDirectory(): " 
-                   +  chooser.getCurrentDirectory());
-                System.out.println("getSelectedFile() : " 
-                   +  chooser.getSelectedFile() + "\\report.txt");
-                
                 FileWriter myWriter = new FileWriter(chooser.getSelectedFile() + "\\reportCSV.txt");
                 for (Block block : blocks) {
                     for (Lot lot : block.getLots()) {
@@ -745,6 +739,7 @@ public class MainMenu extends javax.swing.JFrame {
                     }
                 }
                 myWriter.close();
+                JOptionPane.showMessageDialog(this,"Generated CSV Report!");
             }
             else {
                 System.out.println("No Selection ");
@@ -764,11 +759,6 @@ public class MainMenu extends javax.swing.JFrame {
             chooser.setAcceptAllFileFilterUsed(false);
                 
             if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) { 
-                System.out.println("getCurrentDirectory(): " 
-                   +  chooser.getCurrentDirectory());
-                System.out.println("getSelectedFile() : " 
-                   +  chooser.getSelectedFile() + "\\report.txt");
-                
                 FileWriter myWriter = new FileWriter(chooser.getSelectedFile() + "\\report.txt");
                 for (Block block : blocks) {
                     for (Lot lot : block.getLots()) {
@@ -784,6 +774,7 @@ public class MainMenu extends javax.swing.JFrame {
                     }
                 }
                 myWriter.close();
+                JOptionPane.showMessageDialog(this,"Generated File Report!");
             }
             else {
                 System.out.println("No Selection ");
