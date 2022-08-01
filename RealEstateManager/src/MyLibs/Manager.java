@@ -47,7 +47,7 @@ public class Manager implements Mediator {
      * @param size size
      */
     @Override
-    public void updateLot(int blockNum, int lotNum, int price, int size) {
+    public void updateLot(int blockNum, int lotNum, float price, float size) {
         // update lot based on index, subject to change
         // if you could think a better method let us know
         Lot refLot = blocks.get(blockNum).getLots().get(lotNum);
