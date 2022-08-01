@@ -97,6 +97,7 @@ public class MainMenu extends javax.swing.JFrame {
         backButton4 = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         gTable = new javax.swing.JTable();
+        gBtn = new javax.swing.JButton();
         mainMenu = new javax.swing.JPanel();
         modLotsButton = new javax.swing.JButton();
         showLotButton = new javax.swing.JButton();
@@ -412,14 +413,17 @@ public class MainMenu extends javax.swing.JFrame {
         gTable.getTableHeader().setReorderingAllowed(false);
         jScrollPane2.setViewportView(gTable);
 
+        gBtn.setText("Generate");
+        gBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                gBtnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout genRepLayout = new javax.swing.GroupLayout(genRep);
         genRep.setLayout(genRepLayout);
         genRepLayout.setHorizontalGroup(
             genRepLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, genRepLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(backButton4)
-                .addGap(287, 287, 287))
             .addGroup(genRepLayout.createSequentialGroup()
                 .addGroup(genRepLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(genRepLayout.createSequentialGroup()
@@ -427,19 +431,26 @@ public class MainMenu extends javax.swing.JFrame {
                         .addComponent(jLabel5))
                     .addGroup(genRepLayout.createSequentialGroup()
                         .addGap(19, 19, 19)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 614, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 614, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(genRepLayout.createSequentialGroup()
+                        .addGap(285, 285, 285)
+                        .addGroup(genRepLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(gBtn)
+                            .addComponent(backButton4))))
                 .addContainerGap(19, Short.MAX_VALUE))
         );
         genRepLayout.setVerticalGroup(
             genRepLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(genRepLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(12, Short.MAX_VALUE)
                 .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 351, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(gBtn)
+                .addGap(9, 9, 9)
                 .addComponent(backButton4)
-                .addGap(34, 34, 34))
+                .addGap(15, 15, 15))
         );
 
         parentPanel.add(genRep, "card6");
@@ -672,6 +683,21 @@ public class MainMenu extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Status updated to: "+pStatusCbx.getSelectedItem().toString());
         }
     }//GEN-LAST:event_pSubmitBtnActionPerformed
+
+    private void gBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gBtnActionPerformed
+        // TODO add your handling code here:
+        //outstream and show table
+        DefaultTableModel mod = (DefaultTableModel) gTable.getModel();
+        mod.setRowCount(0);
+        for (int v = 0;v<blockLimit;v++) {
+            for(int z = 0; z<lotLimit;z++) {
+                mod.insertRow(mod.getRowCount(),new Object[] {
+                manager.getArrayList().get(v).getBlockNum(), manager.getArrayList().get(v).getLots().get(z).getLotNum(), manager.getArrayList().get(v).getLots().get(z).getSize(), manager.getArrayList().get(v).getLots().get(z).getPrice(), manager.getArrayList().get(v).getLots().get(z).getStatus()}
+                );
+            }
+        }
+        gTable.setAutoCreateRowSorter(true);
+    }//GEN-LAST:event_gBtnActionPerformed
     
     /**
      * @param args the command line arguments
@@ -713,6 +739,7 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JButton backButton4;
     private javax.swing.JTextField clientFirstFld;
     private javax.swing.JTextField clientLastFld;
+    private javax.swing.JButton gBtn;
     private javax.swing.JTable gTable;
     private javax.swing.JPanel genRep;
     private javax.swing.JButton genRepButton;
