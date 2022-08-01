@@ -75,4 +75,8 @@ public class Manager implements Mediator {
     public Client generateClient(String fname, String lname, String sig) {
         return new Client(fname, lname, sig);
     }
+    
+    public Agent generateAgent(String fname, String lname, String user, String pw) {
+        return new Agent(fname, lname, user, pw);
+    }
 }

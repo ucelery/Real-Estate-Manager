@@ -6,6 +6,8 @@ package MyApp;
 
 import MyLibs.*;
 import java.util.ArrayList;
+import java.util.Random;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 
@@ -18,15 +20,18 @@ public class MainMenu extends javax.swing.JFrame {
     ArrayList<Block> blocks = new ArrayList<Block>();
     public MainMenu() {
         initComponents();
-        
-        // Sample data
+        // Default data
+        //randomized 40-200 for size, price = 5000-15000, 
         for (int i = 0; i < 5; i++) {
             Block block = new Block(i + 1);
             for (int j = 0; j < 20; j++) {
-                Lot lot = new Lot(10, j + 1, 10000, "available");
+                Random rPrice = new Random();
+                Random rSize = new Random();
+                float price = rPrice.nextInt(10000)+5000;
+                float size = rSize.nextInt(160)+40;
+                Lot lot = new Lot(size, j + 1, price);
                 block.getLots().add(lot);
             }
-            
             blocks.add(block);
         }
         
