@@ -6,5 +6,5 @@ package MyLibs;
 
 public interface Mediator {
     public void updateLotStatus(int blockNum, int lotNum, Client client, String status);
-    public void updateLot(int blockNum, int lotNum, Lot newLot);
+    public void updateLot(int blockNum, int lotNum, int price, int size);
 }

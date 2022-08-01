@@ -43,18 +43,16 @@ public class Manager implements Mediator {
      * Updates lot description by passing a new lot object
      * @param blockNum block number index
      * @param lotNum Lot number index
-     * @param newLot new lot object
+     * @param price price
+     * @param size size
      */
     @Override
-    public void updateLot(int blockNum, int lotNum, Lot newLot) {
+    public void updateLot(int blockNum, int lotNum, int price, int size) {
         // update lot based on index, subject to change
         // if you could think a better method let us know
         Lot refLot = blocks.get(blockNum).getLots().get(lotNum);
-        refLot.setLotNum(newLot.getLotNum());
-        refLot.setOwner(newLot.getOwner());
-        refLot.setPrice(newLot.getPrice());
-        refLot.setSize(newLot.getSize());
-        refLot.setStatus(newLot.getStatus());
+        refLot.setPrice(price);
+        refLot.setSize(size);
     }
     
     /**

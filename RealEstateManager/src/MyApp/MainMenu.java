@@ -18,9 +18,10 @@ import javax.swing.table.DefaultTableModel;
 public class MainMenu extends javax.swing.JFrame {
     
     ArrayList<Block> blocks = new ArrayList<>();
+    Manager manager = new Manager(blocks);
     public MainMenu() {
         initComponents();
-        // Default data
+        // Default hardcoded data
         //randomized 40-200 for size, price = 5000-15000, 
         for (int i = 0; i < 5; i++) {
             Block block = new Block(i + 1);
@@ -58,12 +59,6 @@ public class MainMenu extends javax.swing.JFrame {
     private void initComponents() {
 
         parentPanel = new javax.swing.JPanel();
-        mainMenu = new javax.swing.JPanel();
-        modLotsButton = new javax.swing.JButton();
-        showLotButton = new javax.swing.JButton();
-        procLotsButton = new javax.swing.JButton();
-        genRepButton = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
         modifyLots = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         backButton1 = new javax.swing.JButton();
@@ -96,83 +91,16 @@ public class MainMenu extends javax.swing.JFrame {
         backButton4 = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         gTable = new javax.swing.JTable();
+        mainMenu = new javax.swing.JPanel();
+        modLotsButton = new javax.swing.JButton();
+        showLotButton = new javax.swing.JButton();
+        procLotsButton = new javax.swing.JButton();
+        genRepButton = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         parentPanel.setLayout(new java.awt.CardLayout());
-
-        modLotsButton.setFont(new java.awt.Font("Sitka Display", 1, 24)); // NOI18N
-        modLotsButton.setText("Modify Lots");
-        modLotsButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                modLotsButtonActionPerformed(evt);
-            }
-        });
-
-        showLotButton.setFont(new java.awt.Font("Sitka Display", 1, 24)); // NOI18N
-        showLotButton.setText("Show Lots");
-        showLotButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                showLotButtonActionPerformed(evt);
-            }
-        });
-
-        procLotsButton.setFont(new java.awt.Font("Sitka Display", 1, 24)); // NOI18N
-        procLotsButton.setText("Process Lots");
-        procLotsButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                procLotsButtonActionPerformed(evt);
-            }
-        });
-
-        genRepButton.setFont(new java.awt.Font("Sitka Display", 1, 24)); // NOI18N
-        genRepButton.setText("Generate Report");
-        genRepButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                genRepButtonActionPerformed(evt);
-            }
-        });
-
-        jLabel1.setFont(new java.awt.Font("Sitka Heading", 1, 36)); // NOI18N
-        jLabel1.setText("Welcome!");
-        jLabel1.setToolTipText("");
-
-        javax.swing.GroupLayout mainMenuLayout = new javax.swing.GroupLayout(mainMenu);
-        mainMenu.setLayout(mainMenuLayout);
-        mainMenuLayout.setHorizontalGroup(
-            mainMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(mainMenuLayout.createSequentialGroup()
-                .addGap(247, 247, 247)
-                .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainMenuLayout.createSequentialGroup()
-                .addContainerGap(18, Short.MAX_VALUE)
-                .addGroup(mainMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(modLotsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(procLotsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(mainMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(showLotButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(genRepButton, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(16, 16, 16))
-        );
-        mainMenuLayout.setVerticalGroup(
-            mainMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainMenuLayout.createSequentialGroup()
-                .addGap(15, 15, 15)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(mainMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(modLotsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(showLotButton, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(mainMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(procLotsButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(genRepButton, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(75, Short.MAX_VALUE))
-        );
-
-        parentPanel.add(mainMenu, "card2");
 
         jLabel2.setFont(new java.awt.Font("Sitka Heading", 1, 36)); // NOI18N
         jLabel2.setText("Modify Lots");
@@ -461,6 +389,79 @@ public class MainMenu extends javax.swing.JFrame {
 
         parentPanel.add(genRep, "card6");
 
+        modLotsButton.setFont(new java.awt.Font("Sitka Display", 1, 24)); // NOI18N
+        modLotsButton.setText("Modify Lots");
+        modLotsButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                modLotsButtonActionPerformed(evt);
+            }
+        });
+
+        showLotButton.setFont(new java.awt.Font("Sitka Display", 1, 24)); // NOI18N
+        showLotButton.setText("Show Lots");
+        showLotButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                showLotButtonActionPerformed(evt);
+            }
+        });
+
+        procLotsButton.setFont(new java.awt.Font("Sitka Display", 1, 24)); // NOI18N
+        procLotsButton.setText("Process Lots");
+        procLotsButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                procLotsButtonActionPerformed(evt);
+            }
+        });
+
+        genRepButton.setFont(new java.awt.Font("Sitka Display", 1, 24)); // NOI18N
+        genRepButton.setText("Generate Report");
+        genRepButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                genRepButtonActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setFont(new java.awt.Font("Sitka Heading", 1, 36)); // NOI18N
+        jLabel1.setText("Welcome!");
+        jLabel1.setToolTipText("");
+
+        javax.swing.GroupLayout mainMenuLayout = new javax.swing.GroupLayout(mainMenu);
+        mainMenu.setLayout(mainMenuLayout);
+        mainMenuLayout.setHorizontalGroup(
+            mainMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(mainMenuLayout.createSequentialGroup()
+                .addGap(247, 247, 247)
+                .addComponent(jLabel1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainMenuLayout.createSequentialGroup()
+                .addContainerGap(18, Short.MAX_VALUE)
+                .addGroup(mainMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(modLotsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(procLotsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(mainMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(showLotButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(genRepButton, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(16, 16, 16))
+        );
+        mainMenuLayout.setVerticalGroup(
+            mainMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainMenuLayout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(mainMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(modLotsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(showLotButton, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(mainMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(procLotsButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(genRepButton, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(75, Short.MAX_VALUE))
+        );
+
+        parentPanel.add(mainMenu, "card2");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -534,6 +535,12 @@ public class MainMenu extends javax.swing.JFrame {
 
     private void modifyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modifyButtonActionPerformed
         // TODO add your handling code here:
+        try {
+            
+        }
+        catch (Exception e) {
+            JOptionPane.showMessageDialog(this,e.getMessage() ,"Error empty fields!",JOptionPane.WARNING_MESSAGE);
+        }
     }//GEN-LAST:event_modifyButtonActionPerformed
 
     private void backButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButton2ActionPerformed
