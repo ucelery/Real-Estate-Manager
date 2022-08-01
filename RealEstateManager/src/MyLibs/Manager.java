@@ -56,12 +56,12 @@ public class Manager implements Mediator {
     
     /**
      * displays the report that should show all the lots and their complete information 
-     * like location (block no. and lot no.) or status ("available", "sold", "reserved")
+     * like location (block no.and lot no.) or status ("available", "sold", "reserved")
+     * @throws java.io.FileNotFoundException
      */
-    public void generateReport() {
-        
-    }
-    
+//    public void generateReport() {
+//    }
+//    
     /**
      * Generates a client, object
      * @param fname sets the client's First Name

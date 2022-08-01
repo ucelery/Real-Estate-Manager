@@ -621,6 +621,8 @@ public class MainMenu extends javax.swing.JFrame {
             mClearBtnActionPerformed(evt);
             JOptionPane.showMessageDialog(this, "Lot updated!");
         }
+        //sRefreshBtnActionPerformed(evt);
+        //gBtnActionPerformed(evt);
     }//GEN-LAST:event_modifyButtonActionPerformed
 
     private void backButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButton2ActionPerformed
@@ -677,6 +679,8 @@ public class MainMenu extends javax.swing.JFrame {
             clientLastFld.setText("");
             JOptionPane.showMessageDialog(this, "Status updated to: "+pStatusCbx.getSelectedItem().toString());
         }
+        //sRefreshBtnActionPerformed(evt);
+        //gBtnActionPerformed(evt);
     }//GEN-LAST:event_pSubmitBtnActionPerformed
 
     private void gBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gBtnActionPerformed
@@ -692,6 +696,20 @@ public class MainMenu extends javax.swing.JFrame {
             }
         }
         gTable.setAutoCreateRowSorter(true);
+        //automated try catch block
+//        FileOutputStream fos = null;
+//        try {
+//            fos = new FileOutputStream("Report.txt");
+//        } catch (FileNotFoundException ex) {
+//            Logger.getLogger(MainMenu.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        try (PrintWriter writer = new PrintWriter(fos)) {
+//            for (Block block : blocks) {
+//                for (Lot lot : block.getLots()) {
+//                    writer.println("Block " + block.getBlockNum()+" Lot "+lot.getLotNum()+" "+lot.getSize()+" "+lot.getPrice()+" "+lot.getStatus()+" "+lot.getOwner().getFullName());
+//                }
+//            }
+//        }
     }//GEN-LAST:event_gBtnActionPerformed
     
     /**
