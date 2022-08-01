@@ -32,10 +32,10 @@ public class Manager implements Mediator {
      * @param status possible status inputs are "available", "reserved", "sold"
      */
     @Override
-    public void updateLotStatus(Lot lot, Client client, String status) {
+    public void updateLotStatus(Lot lotNum, Client client, String status) {
         for (Block blockItem : blocks) {
             for (Lot lotItem : blockItem.getLots()) {
-                if (lotItem == lot) {
+                if (lotItem == lotNum) {
                     // Update lot status
                     break;
                 }
