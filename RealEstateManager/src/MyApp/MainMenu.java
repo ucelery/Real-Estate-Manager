@@ -536,7 +536,7 @@ public class MainMenu extends javax.swing.JFrame {
     private void modifyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modifyButtonActionPerformed
         // TODO add your handling code here:
         try {
-            manager.updateLot(ALLBITS, NORMAL, newLot);
+            manager.updateLot(Integer.parseInt(mBlockFld.getText()), Integer.parseInt(mLotFld.getText()), Float.parseFloat(mPriceFld.getText()) , Float.parseFloat(mSizeFld.getText()));
         }
         catch (Exception e) {
             JOptionPane.showMessageDialog(this,e.getMessage() ,"Error empty fields!",JOptionPane.WARNING_MESSAGE);
