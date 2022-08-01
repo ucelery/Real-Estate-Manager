@@ -18,7 +18,7 @@ import javax.swing.table.DefaultTableModel;
 public class MainMenu extends javax.swing.JFrame {
     
     ArrayList<Block> blocks = new ArrayList<>();
-    Manager manager = new Manager(blocks);
+    Manager manager;
     int minPrice = 5000, maxPrice = 15000, minSize = 40, maxSize = 250, blockLimit = 5, lotLimit = 20;
     public MainMenu() {
         initComponents();
@@ -36,17 +36,16 @@ public class MainMenu extends javax.swing.JFrame {
             }
             blocks.add(block);
         }
-        
+        manager = new Manager(blocks);
         DefaultTableModel model = (DefaultTableModel) sTable.getModel();
         model.setRowCount(0);
-        for (Block block : blocks) {
+        for (Block block : manager.getArrayList()) {
             for (Lot lot : block.getLots()) {
                 model.addRow(new Object[]{
                     block.getBlockNum(), lot.getLotNum(), lot.getSize(), lot.getPrice()}
                 );
             }
-        }
-        
+        }    
         sTable.setAutoCreateRowSorter(true);
     }
     
@@ -605,7 +604,8 @@ public class MainMenu extends javax.swing.JFrame {
             else if (Float.parseFloat(mPriceFld.getText())>maxPrice||Float.parseFloat(mSizeFld.getText())>maxSize) {
                 throw new Exception("Input is higher than maximum values");
             }
-            manager.updateLot(Integer.parseInt(mBlockFld.getText()), Integer.parseInt(mLotFld.getText()), Float.parseFloat(mPriceFld.getText()) , Float.parseFloat(mSizeFld.getText()));
+            else
+                manager.updateLot(Integer.parseInt(mBlockFld.getText()), Integer.parseInt(mLotFld.getText()), Float.parseFloat(mPriceFld.getText()) , Float.parseFloat(mSizeFld.getText()));
         }
         catch (Exception e) {
             JOptionPane.showMessageDialog(this,e.getMessage() ,"Error",JOptionPane.WARNING_MESSAGE);
@@ -636,24 +636,27 @@ public class MainMenu extends javax.swing.JFrame {
         // TODO add your handling code here:
         DefaultTableModel mod = (DefaultTableModel) sTable.getModel();
         mod.setRowCount(0);
-        for (Block block : blocks) {
-            for (Lot lot : block.getLots()) {
-                mod.addRow(new Object[]{
-                    block.getBlockNum(), lot.getLotNum(), lot.getSize(), lot.getPrice()}
+        for (int v = 0;v<blockLimit;v++) {
+            for(int z = 0; z<lotLimit;z++) {
+                mod.insertRow(mod.getRowCount(),new Object[] {
+                manager.getArrayList().get(v).getBlockNum(), manager.getArrayList().get(v).getLots().get(z).getLotNum(), manager.getArrayList().get(v).getLots().get(z).getSize(), manager.getArrayList().get(v).getLots().get(z).getPrice()}
                 );
             }
         }
-        
         sTable.setAutoCreateRowSorter(true);
-//        mod.fireTableDataChanged();
-//        sTable.repaint();
     }//GEN-LAST:event_sRefreshBtnActionPerformed
 
     private void pSubmitBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pSubmitBtnActionPerformed
         // TODO add your handling code here:
         //need try block and JOptionPane response.
         boolean hasError = false;
-        manager.updateLotStatus(Integer.parseInt(pBlockCbx.getSelectedItem().toString()), Integer.parseInt(pLotFld.getText()), manager.generateClient(clientFirstFld.getText(), clientLastFld.getText(), "TEMP"), pStatusCbx.getSelectedItem().toString());
+        try {
+            
+            manager.updateLotStatus(Integer.parseInt(pBlockCbx.getSelectedItem().toString()), Integer.parseInt(pLotFld.getText()), manager.generateClient(clientFirstFld.getText(), clientLastFld.getText(), "TEMP"), pStatusCbx.getSelectedItem().toString());
+        }
+        catch (Exception e) {
+            
+        }
         if (!hasError) {
             //return back to default values
             pLotFld.setText("");
