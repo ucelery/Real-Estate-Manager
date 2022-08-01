@@ -34,9 +34,9 @@ public class Manager implements Mediator {
      */
     @Override
     public void updateLotStatus(int blockNum, int lotNum, Client client, String status) {
-        Lot refLot = blocks.get(blockNum).getLots().get(lotNum);
-        refLot.setOwner(client);
-        refLot.setStatus(status);
+        blocks.get(blockNum).getLots().get(lotNum).setOwner(client);
+        blocks.get(blockNum).getLots().get(lotNum).setStatus(status);
+        
     }
 
     /**
@@ -50,9 +50,8 @@ public class Manager implements Mediator {
     public void updateLot(int blockNum, int lotNum, float price, float size) {
         // update lot based on index, subject to change
         // if you could think a better method let us know
-        Lot refLot = blocks.get(blockNum).getLots().get(lotNum);
-        refLot.setPrice(price);
-        refLot.setSize(size);
+        blocks.get(blockNum).getLots().get(lotNum).setPrice(price);
+        blocks.get(blockNum).getLots().get(lotNum).setSize(size);
     }
     
     /**
